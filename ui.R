@@ -2,26 +2,72 @@ require(shiny)
 require(shinythemes)
 require(tidyverse)
 
-expenses = filter(guil_sss, category == "expense")
-
-
-navbarPage(title = "Self Sufficiency Prototype", collapsible = TRUE,
-           fluid = TRUE, theme = shinytheme(theme = "darkly"),
-           
-           fluidRow(
-             column(width = 6,
-                    selectizeInput(inputId = "family", label = "Please select your family composition", choices = names(families),
-                                   multiple = FALSE, width = "100%", options = list(placeholder="Hover or start typing here...",
-                                                                                    selectOnTab=TRUE,
-                                                                                    openOnFocus=TRUE,
-                                                                                    hideSelected=TRUE)) #families-input
-                    ),#row 1-column 1
-             column(width = 6,
-                    selectizeInput(inputId = "expenses", label = NULL, choices = unique(expenses$type),
-                                   multiple=TRUE, width="100%", options = list(placeholder="Start typing to select some expenses...",
-                                                                               selectOnTab=TRUE,
-                                                                               openOnFocus=TRUE,
-                                                                               hideSelected=TRUE)) #expense-input
-                    ) #row 1-column 2
-             )#row 1
-           ) #page
+navbarPage(
+  title = "Self Sufficiency Prototype", collapsible = TRUE,
+  fluid = TRUE, theme = shinytheme(theme = "yeti"),
+  
+  tabPanel(
+    title = "Simulation", icon = icon(name = "calculator", class = "fa-2x", lib = "font-awesome"),
+    sidebarLayout(
+      sidebarPanel(
+        selectizeInput(
+          inputId = "family", label = "Select your family composition:", choices = families,
+          multiple = FALSE, width = "100%", options = list(selectOnTab = TRUE,
+                                                           openOnFocus = TRUE,
+                                                           hideSelected = TRUE)
+        ), # families-input
+        selectizeInput(
+          inputId = "expenses", label = "Select applicable expenses:", choices = expenses,
+          multiple = TRUE, width = "100%", options = list(placeholder = "Hover or start typing to select some expenses...",
+                                                          selectOnTab = TRUE,
+                                                          openOnFocus = TRUE,
+                                                          hideSelected = TRUE)
+        ), # expense-input
+        selectizeInput(
+          inputId = "credits", label = "Select applicable credits:", choices = credits,
+          multiple = TRUE, width = "100%", options = list(placeholder = "Hover or start typing to select some credits...",
+                                                          selectOnTab = TRUE,
+                                                          openOnFocus = TRUE,
+                                                          hideSelected = TRUE)
+        ), # credits-input
+        numericInput(
+          inputId = "checking", label = "Checking account balance:", value = 0
+        ), # checking-balance-input
+        numericInput(
+          inputId = "wage", label = "Hourly Wage:", value = 7.00, step = 0.01
+        ), # wage-numeric-input
+        sliderInput(
+          inputId = "hours", label = "Weekly Hours:", min = 0, max = 40,
+          value = 20, step = 1
+        ), # hours-input
+        sliderInput(
+          inputId = "housing_voucher", label = "Housing Voucher Amount:", min = 0, max = 4000,
+          value = 0, step = 10, sep = ",", pre = "$"
+        ), # housing-voucher-slider-input
+        sliderInput(
+          inputId = "childcare_subsidy", label = "Childcare Subsidy Amount:", min = 0, max = 4000,
+          value = 0, step = 10, sep = ",", pre = "$"
+        ), #childcare-subsidy-slider-input
+        sliderInput(
+          inputId = "snap", label = "SNAP Amount:", min = 0, max = 4000,
+          value = 0, step = 10, sep = ",", pre = "$"
+        ), #snap-slider-input
+        sliderInput(
+          inputId = "wic", label = "WIC Amount:", min = 0, max = 4000,
+          value = 0, step = 10, sep = ",", pre = "$"
+        ), #wic-slider-input
+        sliderInput(
+          inputId = "healthcare_subsidy", label = "Healthcare Subsidy Amount:", min = 0, max = 4000,
+          value = 0, step = 10, sep = ",", pre = "$"
+        ), #healthcare-subsidy-slider-input
+        sliderInput(
+          inputId = "child_support", label = "Child Support Amount:", min = 0, max = 4000,
+          value = 0, step = 10, sep = ",", pre = "$"
+        ) #child-support-slider-input
+      ), # sidebarPanel
+      
+      mainPanel(highchartOutput("comparison")) # mainPanel
+      
+    ) # sidebarLayout
+  ) # tabPanel
+) # page
