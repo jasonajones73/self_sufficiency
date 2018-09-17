@@ -1,6 +1,7 @@
 require(shiny)
 require(shinythemes)
 require(tidyverse)
+require(highcharter)
 
 navbarPage(
   title = "Self Sufficiency Prototype", collapsible = TRUE,
