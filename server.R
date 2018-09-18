@@ -37,4 +37,24 @@ function(input, output, session) {
       hc_plotOptions(series = list(stacking = "normal"))
   })
   
-}
+  output$family_compare_income <- renderHighchart({
+    guil_sss %>%
+      filter(type != "annual_wage" & type != "hourly_wage" & category != "expense") %>%
+      left_join(data_frame(family = families, fam_name = names(families))) %>%
+      left_join(data_frame(type = credits, type_name = names(credits))) %>%
+      hchart("column", hcaes(x = fam_name, y = amount, group = type_name)) %>%
+      hc_tooltip(valuePrefix = "$", split = TRUE) %>%
+      hc_plotOptions(series = list(stacking = "normal"))
+  })
+  
+  output$family_compare_expense <- renderHighchart({
+    guil_sss %>%
+      filter(category != "income") %>%
+      left_join(data_frame(family = families, fam_name = names(families))) %>%
+      left_join(data_frame(type = expenses, type_name = names(expenses))) %>%
+      hchart("column", hcaes(x = fam_name, y = amount, group = type_name)) %>%
+      hc_tooltip(valuePrefix = "$", split = TRUE) %>%
+      hc_plotOptions(series = list(stacking = "normal"))
+  })
+  
+} # server-function

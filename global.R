@@ -28,7 +28,8 @@ expenses = setNames(c(unique(expense_filt$type)),
 # Creating choices for credit category selections
 credits = c("Child Care Tax Credit" = "child_care_tax_credit",
             "Child Tax Credit" = "child_tax_credit",
-            "Earned Income Tax Credit" = "earned_income_tax_credit")
+            "Earned Income Tax Credit" = "earned_income_tax_credit",
+            "Monthly Salary" = "mon_wage")
 
 
 

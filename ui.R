@@ -25,7 +25,7 @@ navbarPage(
                                                           hideSelected = TRUE)
         ), # expense-input
         selectizeInput(
-          inputId = "credits", label = "Select applicable credits:", choices = credits,
+          inputId = "credits", label = "Select applicable credits:", choices = credits[1:3],
           multiple = TRUE, width = "100%", options = list(placeholder = "Hover or start typing to select some credits...",
                                                           selectOnTab = TRUE,
                                                           openOnFocus = TRUE,
@@ -69,6 +69,13 @@ navbarPage(
       
       mainPanel(highchartOutput("comparison")) # mainPanel
       
-    ) # sidebarLayout
-  ) # tabPanel
+    ) # sidebar-layout
+  ), # tab-panel
+  
+  tabPanel(title = "Comparison", icon = icon("pie-chart", class = "fa-2x"),
+    sidebarLayout(
+      sidebarPanel(), # sidebar-panel
+      mainPanel(highchartOutput("family_compare_income"), highchartOutput("family_compare_expense")) # main-panel
+    ) # side-bar-layout
+  ) # tab-panel
 ) # page
