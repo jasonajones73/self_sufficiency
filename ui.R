@@ -2,6 +2,7 @@ require(shiny)
 require(shinythemes)
 require(tidyverse)
 require(highcharter)
+require(DT)
 
 navbarPage(
   title = "Self Sufficiency Prototype", collapsible = TRUE,
@@ -67,7 +68,8 @@ navbarPage(
         ) #child-support-slider-input
       ), # sidebarPanel
       
-      mainPanel(highchartOutput("comparison")) # mainPanel
+      mainPanel(highchartOutput("comparison"),
+                highchartOutput("plot")) # mainPanel
       
     ) # sidebar-layout
   ), # tab-panel
@@ -75,7 +77,8 @@ navbarPage(
   tabPanel(title = "Comparison", icon = icon("pie-chart", class = "fa-2x"),
     sidebarLayout(
       sidebarPanel(), # sidebar-panel
-      mainPanel(highchartOutput("family_compare_income"), highchartOutput("family_compare_expense")) # main-panel
+      mainPanel(highchartOutput("family_compare_income"),
+                highchartOutput("family_compare_expense")) # main-panel
     ) # side-bar-layout
   ) # tab-panel
 ) # page

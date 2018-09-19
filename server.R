@@ -1,5 +1,7 @@
 require(shiny)
 require(highcharter)
+require(DT)
+require(lubridate)
 
 source("global.R")
 
@@ -57,4 +59,31 @@ function(input, output, session) {
       hc_plotOptions(series = list(stacking = "normal"))
   })
   
+  dat <- reactive({
+    data_frame("Family Composition" = input$family,
+               "Account Balance" = input$checking,
+               "Monthly Wage" = round(((input$wage * input$hours) * 52) / 12, digits = 0),
+               "Housing Voucher" = input$housing_voucher,
+               "Childcare Subsidy" = input$childcare_subsidy,
+               "SNAP" = input$snap,
+               "WIC" = input$wic,
+               "Healthcare Subsidy" = input$healthcare_subsidy) %>%
+      .[rep(1, length.out = 12), ] %>%
+      mutate(date = seq(from = Sys.Date(), to = (Sys.Date() %m+% months(11)), by = "1 month")) %>%
+      gather(key = "category", value = "amount", 1:8)
+  })
+  
+  output$plot <- renderHighchart({
+    dat() %>%
+      hchart("line", hcaes(date, as.integer(amount), group = category)) %>%
+      hc_tooltip(valuePrefix = "$", split = TRUE)
+  })
+  
 } # server-function
+
+
+
+
+
+
+
