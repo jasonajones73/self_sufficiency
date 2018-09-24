@@ -16,57 +16,24 @@ navbarPage(
     
     sidebarLayout(
       sidebarPanel(
-        radioGroupButtons(inputId = "adults_sm", label = "How many adults, age 18 or older, are in your household?", 
+        radioGroupButtons(inputId = "adults_sm", label = strong("1. How many adults, age 18 or older, are in your household?"), 
                           choices = c(1:3), status = "primary",
                           checkIcon = list(yes = icon("check-circle", lib = "font-awesome"), no = icon("times-circle", lib = "font-awesome"))),
         radioGroupButtons(inputId = "infants", label = "How many children age 0 to 35 months are in your household?", 
-                          choices = c(1:6), status = "primary",
+                          choices = c(0:6), status = "primary",
                           checkIcon = list(yes = icon("check-circle", lib = "font-awesome"), no = icon("times-circle", lib = "font-awesome"))),
         radioGroupButtons(inputId = "preschool", label = "How many children age 3 to 5 are in your household?", 
-                          choices = c(1:6), status = "primary",
+                          choices = c(0:6), status = "primary",
                           checkIcon = list(yes = icon("check-circle", lib = "font-awesome"), no = icon("times-circle", lib = "font-awesome"))),
         radioGroupButtons(inputId = "school_age", label = "How many children age 6 to 12 children are in your household?", 
-                          choices = c(1:6), status = "primary",
+                          choices = c(0:6), status = "primary",
                           checkIcon = list(yes = icon("check-circle", lib = "font-awesome"), no = icon("times-circle", lib = "font-awesome"))),
         radioGroupButtons(inputId = "teenager", label = "How many children age 13 to 18 are in your household?", 
-                          choices = c(1:6), status = "primary",
+                          choices = c(0:6), status = "primary",
                           checkIcon = list(yes = icon("check-circle", lib = "font-awesome"), no = icon("times-circle", lib = "font-awesome")))
       ), # side-bar-panel
-      mainPanel() # main-panel
-    ) # side-bar-layout
-  ), # tab-panel 
-
-# Tab Panel - Family Composition ----    
-  tabPanel(
-    title = "Family Composition", icon = icon(name = "home", class = "fa-2x", lib = "font-awesome"),
-    
-    sidebarLayout(
-      sidebarPanel(width = 3,
-        numericInput(
-          inputId = "adults_sm", label = "How many adults, age 18 or older, are in your household?", value = 1,
-          min = 1, max = 10, step = 1
-        ), # adults-numeric-input
-        numericInput(
-          inputId = "infants", label = "How many children age 0 to 35 months are in your household?", value = 0,
-          min = 0, max = 10, step = 1
-        ), # adults-numeric-input
-        numericInput(
-          inputId = "preschool", label = "How many children age 3 to 5 are in your household?", value = 0,
-          min = 0, max = 10, step = 1
-        ), # adults-numeric-input
-        numericInput(
-          inputId = "school_age", label = "How many children age 6 to 12 children are in your household?", value = 0,
-          min = 0, max = 10, step = 1
-        ), # adults-numeric-input
-        numericInput(
-          inputId = "teenagers", label = "How many children age 13 to 18 are in your household?", value = 0,
-          min = 0, max = 10, step = 1
-        ) # adults-numeric-input
-      ), # side-bar-panel
-      
-      mainPanel(
-        
-      ) # main-panel
+      mainPanel(dataTableOutput("test"),
+                highchartOutput("test2")) # main-panel
     ) # side-bar-layout
   ), # tab-panel 
   

@@ -7,6 +7,30 @@ source("global.R")
 
 function(input, output, session) {
   
+  
+# Filtering family standard
+  fam_stand <- reactive({
+    family_standard %>%
+      filter(Adults == input$adults_sm &
+               Infants == input$infants &
+               Preschoolers == input$preschool &
+               `School-Age` == input$school_age &
+               Teenager == input$teenager) %>%
+      select(6:19) %>%
+      gather(key = "Category", value = "Amount", 1:ncol(.)) %>%
+      mutate(Amount = abs(Amount))
+  }) # family-standard-filtering
+  
+  output$test <- renderDT({datatable(fam_stand())})
+  
+  output$test2 <- renderHighchart({
+    fam_stand() %>%
+      filter(Category != "Annual" & Category != "Hourley") %>%
+    hchart("column", hcaes(Category, Amount, fill = Category)) %>%
+      hc_tooltip(valuePrefix = "$")
+  })
+
+  
 # Monthly Gross Income ----
   monthly_gross <- reactive({
     round(((input$wage * input$hours) * 52) / 12, digits = 0)
