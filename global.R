@@ -1,6 +1,15 @@
 require(tidyverse)
+require(highcharter)
+
+lang <- getOption("highcharter.lang")
+lang$thousandsSep <- ","
+options(highcharter.lang = lang)
 
 guil_sss = read_csv("data/guil_sss_update.csv")
+
+large_family_standard = read_csv("data/large_family_standard_clean.csv")
+
+family_standard = read_csv("data/family_standard_clean.csv")
 
 # Creating choices for family composition selection
 families = c("Adult" = 1,
@@ -30,6 +39,15 @@ credits = c("Child Care Tax Credit" = "child_care_tax_credit",
             "Child Tax Credit" = "child_tax_credit",
             "Earned Income Tax Credit" = "earned_income_tax_credit",
             "Monthly Salary" = "mon_wage")
+
+
+define = data_frame("Monthly Wage" = "Income",
+                    "Housing Voucher" = "Benefit",
+                    "Childcare Subsidy" = "Benefit",
+                    "SNAP" = "Benefit",
+                    "WIC" = "Benefit",
+                    "Healthcare Subsidy" = "Benefit") %>%
+  gather(key = "category", value = "Breakdown")
 
 
 

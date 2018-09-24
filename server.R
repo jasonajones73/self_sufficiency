@@ -7,12 +7,12 @@ source("global.R")
 
 function(input, output, session) {
   
-  # Creating monthly gross income calculation
+# Monthly Gross Income ----
   monthly_gross <- reactive({
     round(((input$wage * input$hours) * 52) / 12, digits = 0)
   })
   
-  # Filtering original data by family composition input
+# Family Composition Data Filter ----
   guil_sss_filt <- reactive({
     guil_sss %>%
       filter(family == input$family)
@@ -76,7 +76,7 @@ function(input, output, session) {
   output$plot <- renderHighchart({
     dat() %>%
       hchart("line", hcaes(date, as.integer(amount), group = category)) %>%
-      hc_tooltip(valuePrefix = "$", split = TRUE)
+      hc_tooltip(valuePrefix = "$")
   })
   
 } # server-function
